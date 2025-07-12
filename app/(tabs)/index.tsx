@@ -1,30 +1,76 @@
 import { ThemedText } from '@/components/ThemedText';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
 
 const App = () => {
-    const [daten, setDaten] = useState([]);
-    const [laden, setLaden] = useState(true);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchVersion = async () => {
+        try {
+            const version = await fetch('https://orientierungsfahrt.schoettner.dev/version');
+            const versionString = await version.text();
+            storeData('version', versionString);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('https://orientierungsfahrt.schoettner.dev/tours');
+            const json = await response.json();
+            setData(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+
+        try {
+            const version = await getData('version');
+            console.log(version);
+            // if (version !== null) {
+            //     console.log(version);
+            // } else {
+            //     await storeData('version', '1.0.0');
+            // }
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     useEffect(() => {
-        fetch('https://orientierungsfahrt.schoettner.dev')
-            .then(response => response.json())
-            .then(json => {
-                setDaten(json);
-                setLaden(false);
-            })
-            .catch(error => {
-                console.error(error);
-                setLaden(false);
-            });
+        fetchVersion();
+        fetchData();
     }, []);
 
-    if (laden) return <ActivityIndicator style={{ marginTop: 50 }} />;
+    const storeData = async (key: string, value: string) => {
+        try {
+            await AsyncStorage.setItem(key, value);
+        } catch (e) {
+            console.error("Error saving key value pair: ", e);
+        }
+    };
+
+    const getData = async (key: string) => {
+        try {
+            const jsonValue = await AsyncStorage.getItem(key);
+            return jsonValue;
+        } catch (e) {
+            console.error("Error loading key value pair: ", e);
+        }
+    };
+
+    if (loading) return <ActivityIndicator style={{ marginTop: 50 }} />;
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <FlatList
-                data={daten}
+                data={data}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
 

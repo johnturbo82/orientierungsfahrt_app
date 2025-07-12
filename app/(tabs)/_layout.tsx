@@ -9,37 +9,44 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Orientierung',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="arrow.turn.up.right" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                headerShown: false,
+                tabBarButton: HapticTab,
+                tabBarBackground: TabBarBackground,
+                tabBarStyle: Platform.select({
+                    ios: {
+                        // Use a transparent background on iOS to show the blur effect
+                        position: 'absolute',
+                    },
+                    default: {},
+                }),
+            }}>
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: 'Orientierung',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="arrow.turn.up.right" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="swiper"
+                options={{
+                    title: 'Swiper',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="settings"
+                options={{
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+                }}
+            />
+        </Tabs>
+    );
 }
