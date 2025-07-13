@@ -1,9 +1,5 @@
+import ViewMode from '@/types/ViewMode';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-enum ViewMode {
-    LIST = 'list',
-    SWIPE = 'swipe',
-}
 
 type SettingsState = {
     viewMode: ViewMode;

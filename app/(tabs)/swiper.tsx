@@ -1,5 +1,7 @@
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 const pages = [
@@ -15,10 +17,10 @@ const NativeSwiper: React.FC = () => (
         initialPage={0}
         overdrag={true}>
         {pages.map((page, idx) => (
-            <View key={idx} style={styles.page}>
-                <Text style={styles.title}>{page.title}</Text>
-                <Text>{page.content}</Text>
-            </View>
+            <ThemedView key={idx} style={styles.page}>
+                <ThemedText style={styles.title}>{page.title}</ThemedText>
+                <ThemedText>{page.content}</ThemedText>
+            </ThemedView>
         ))}
     </PagerView>
 );

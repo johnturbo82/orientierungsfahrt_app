@@ -1,7 +1,9 @@
 import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 
 const App = () => {
     const [data, setData] = useState([]);
@@ -32,7 +34,6 @@ const App = () => {
 
         try {
             const version = await getData('version');
-            console.log(version);
             // if (version !== null) {
             //     console.log(version);
             // } else {
@@ -74,10 +75,10 @@ const App = () => {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
 
-                    <View style={styles.item}>
+                    <ThemedView style={styles.item}>
                         <ThemedText>{item['name']}</ThemedText>
                         <ThemedText>{item['description']}</ThemedText>
-                    </View>
+                    </ThemedView>
                 )}
             />
         </SafeAreaView>
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
     item: {
         padding: 16,
         borderBottomWidth: 1,
-        borderColor: '#ccc',
         color: '#333',
     }
 });
