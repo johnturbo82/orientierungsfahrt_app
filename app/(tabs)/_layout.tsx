@@ -7,9 +7,13 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import ViewMode from '@/types/ViewMode';
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
+    const viewMode = useSelector((state: RootState) => state.settings.viewMode);
 
     return (
         <Tabs
@@ -30,7 +34,7 @@ export default function TabLayout() {
                 name="index"
                 options={{
                     title: 'Orientierung',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="arrow.turn.up.right" color={color} />,
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name={(viewMode === ViewMode.LIST) ? "arrow.up.and.down" : "arrow.left.and.right"} color={color} />,
                 }}
             />
             <Tabs.Screen
