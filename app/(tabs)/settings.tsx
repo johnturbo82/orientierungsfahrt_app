@@ -1,16 +1,20 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
+import { RootState } from "@/redux/store";
 import ViewMode from "@/types/ViewMode";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Switch, TouchableOpacity, useColorScheme } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { setDarkMode } from "@/redux/settingsSlice";
 
 export default function SettingsScreen() {
-    const [viewMode, setViewMode] = useState(ViewMode.LIST);
     const router = useRouter();
     const colorScheme = useColorScheme() ?? "light";
     const theme = Colors[colorScheme];
+    const dispatch = useDispatch();
+    const viewMode = useSelector((state: RootState) => state.settings.viewMode);
+    const darkMode = useSelector((state: RootState) => state.settings.darkMode);
 
     // Items für Cluster 1
     const items = [
@@ -18,11 +22,11 @@ export default function SettingsScreen() {
             key: "darkmode",
             content: (
                 <>
-                    <ThemedText style={[styles.label, { color: theme.text }]}>Dark Mode</ThemedText>
+                    <ThemedText style={[styles.label, { color: theme.text }]}>Dunkelmodus</ThemedText>
                     <Switch
-                        value={viewMode === ViewMode.SWIPE}
+                        value={darkMode}
                         onValueChange={() => {
-                            setViewMode(prev => prev === ViewMode.LIST ? ViewMode.SWIPE : ViewMode.LIST);
+                            dispatch(setDarkMode(!darkMode));
                         }}
                     />
                 </>
@@ -38,7 +42,7 @@ export default function SettingsScreen() {
                     </ThemedText>
                 </>
             ),
-            onPress: () => router.push("/viewmode"),
+            onPress: () => router.push("/settings/viewmode"),
         },
     ];
 

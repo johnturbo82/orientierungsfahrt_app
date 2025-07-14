@@ -1,13 +1,18 @@
+import ListView from '@/components/ListView';
+import SwipeView from '@/components/SwipeView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
+import { RootState } from '@/redux/store';
+import ViewMode from '@/types/ViewMode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const App = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const viewMode = useSelector((state: RootState) => state.settings.viewMode);
 
     const fetchVersion = async () => {
         try {
@@ -70,27 +75,13 @@ const App = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <FlatList
-                data={data}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-
-                    <ThemedView style={styles.item}>
-                        <ThemedText>{item['name']}</ThemedText>
-                        <ThemedText>{item['description']}</ThemedText>
-                    </ThemedView>
-                )}
-            />
+            {viewMode === ViewMode.LIST ? (
+                <ListView data={data} />
+            ) : (
+                <SwipeView data={data} />
+            )}
         </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-    item: {
-        padding: 16,
-        borderBottomWidth: 1,
-        color: '#333',
-    }
-});
 
 export default App;

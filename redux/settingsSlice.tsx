@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SettingsState = {
     viewMode: ViewMode;
+    darkMode: boolean;
 };
 
 const initialState: SettingsState = {
     viewMode: ViewMode.LIST,
+    darkMode: false,
 };
 
 export const settingsSlice = createSlice({
@@ -16,8 +18,11 @@ export const settingsSlice = createSlice({
         setViewMode(state, action: PayloadAction<ViewMode>) {
             state.viewMode = action.payload;
         },
+        setDarkMode(state, action: PayloadAction<boolean>) {
+            state.darkMode = action.payload;
+        },
     },
 });
 
-export const { setViewMode } = settingsSlice.actions;
+export const { setViewMode, setDarkMode } = settingsSlice.actions;
 export default settingsSlice.reducer;
