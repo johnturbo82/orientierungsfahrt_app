@@ -4,15 +4,13 @@ import { Colors } from "@/constants/Colors";
 import { RootState } from "@/redux/store";
 import ViewMode from "@/types/ViewMode";
 import { useRouter } from "expo-router";
-import { SafeAreaView, ScrollView, StyleSheet, Switch, TouchableOpacity, useColorScheme } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { setDarkMode } from "@/redux/settingsSlice";
+import { SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function SettingsScreen() {
     const router = useRouter();
     const colorScheme = useColorScheme() ?? "light";
     const theme = Colors[colorScheme];
-    const dispatch = useDispatch();
     const viewMode = useSelector((state: RootState) => state.settings.viewMode);
 
     const items = [
@@ -44,7 +42,7 @@ export default function SettingsScreen() {
                                 idx === items.length - 1 && { borderBottomWidth: 0 }
                             ]}
                             onPress={item.onPress}
-                            activeOpacity={item.onPress ? 0.7 : 1}
+                            activeOpacity={0.7}
                         >
                             {item.content}
                         </TouchableOpacity>
