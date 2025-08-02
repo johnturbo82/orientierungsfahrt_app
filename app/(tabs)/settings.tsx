@@ -14,24 +14,8 @@ export default function SettingsScreen() {
     const theme = Colors[colorScheme];
     const dispatch = useDispatch();
     const viewMode = useSelector((state: RootState) => state.settings.viewMode);
-    const darkMode = useSelector((state: RootState) => state.settings.darkMode);
 
-    // Items für Cluster 1
     const items = [
-        {
-            key: "darkmode",
-            content: (
-                <>
-                    <ThemedText style={[styles.label, { color: theme.text }]}>Dunkelmodus</ThemedText>
-                    <Switch
-                        value={darkMode}
-                        onValueChange={() => {
-                            dispatch(setDarkMode(!darkMode));
-                        }}
-                    />
-                </>
-            ),
-        },
         {
             key: "viewmode",
             content: (
